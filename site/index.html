@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HeatEquity: who is most exposed to extreme heat?</title>
+<meta name="description" content="Live heat-risk monitor for cities across South Asia and Europe, combining forecast apparent temperature with population vulnerability indicators.">
+<meta property="og:title" content="HeatEquity: who is most exposed to extreme heat?">
+<meta property="og:description" content="Seven-day heat-risk ranking for cities across South Asia and Europe, built on open data.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="brand"><h1>HeatEquity</h1><p>Who is most exposed to extreme heat in South Asia and Europe</p></div>
+  <div class="ctl">
+    <div class="seg" id="reg" role="group" aria-label="Region"><button data-r="All" class="on">All</button><button data-r="South Asia">South Asia</button><button data-r="Europe">Europe</button></div>
+    <div class="seg" id="days" role="group" aria-label="Forecast day"></div>
+    <button class="btn" id="csv">Download CSV</button>
+    <button class="btn" id="how">Method and sources</button>
+  </div>
+</header>
+<main>
+  <div id="mapwrap">
+    <div id="map"></div>
+    <div id="legend">Heat-risk index<i></i><span><b>0</b><b>80+</b></span>Circle size shows city population</div>
+    <div id="msg" hidden></div>
+  </div>
+  <aside>
+    <section id="sum"><p class="sub">Loading forecasts…</p></section>
+    <section id="ai">
+      <h2>AI briefing</h2>
+      <p id="brief" hidden></p><p class="fine" id="bmeta" hidden></p>
+      <details><summary>Ask a follow-up with your own Groq key</summary>
+        <input id="gk" type="password" placeholder="Your Groq API key (kept in this tab only)" autocomplete="off">
+        <textarea id="q" rows="2" placeholder="For example: which of these cities needs cooling centres first?"></textarea>
+        <button class="btn" id="ask">Ask</button><p class="sub" id="ans"></p>
+      </details>
+    </section>
+    <section><h2>Highest heat-risk cities</h2><ol id="rank"></ol></section>
+    <section id="detail" hidden></section>
+    <section>
+      <h2>How heat is measured</h2>
+      <div class="seg wide" id="basis" role="group" aria-label="Heat measure"><button data-b="abs">Absolute</button><button data-b="rel">Against local normal</button><button data-b="blend" class="on">Blend</button></div>
+      <h2 style="margin-top:16px">What counts as vulnerable</h2>
+      <p class="sub">Set how much each factor adds to the risk index.</p>
+      <label>Share of population aged 65+ <output id="o-age">30</output><input type="range" id="w-age" min="0" max="100" value="30"></label>
+      <label>Urban population share <output id="o-urb">20</output><input type="range" id="w-urb" min="0" max="100" value="20"></label>
+      <label>City size <output id="o-size">20</output><input type="range" id="w-size" min="0" max="100" value="20"></label>
+      <label>Built-up minus tree cover <output id="o-land">30</output><input type="range" id="w-land" min="0" max="100" value="30"></label>
+    </section>
+    <section class="fine">
+      <p id="stamp"></p>
+      <p>An independent personal project, not an official UN or ESCAP product, and not a warning system. For alerts, follow your national meteorological service.</p>
+    </section>
+  </aside>
+</main>
+<dialog id="dlg">
+  <h2>Method and sources</h2>
+  <p><b>Heat hazard.</b> <i>Absolute:</i> the daily maximum apparent temperature (Open-Meteo), scaled from 24 °C (0) to 46 °C (1). <i>Against local normal:</i> the forecast daily maximum temperature minus the 1991–2020 monthly mean of daily maximum temperature (NASA POWER), full weight at +10 °C and counted only once apparent temperature passes 20 °C (full weight at 30 °C). <i>Blend</i> averages the two, so places are judged partly against what is normal for them. Category names follow the National Weather Service heat-index bands, but apparent temperature is not identical to the heat index.</p>
+  <p><b>Vulnerability.</b> A weighted average of percentile ranks: share aged 65+ and urban share (World Bank, national), city population (GeoNames), and built-up share minus tree-cover share within 5 km of the centre (ESA WorldCover 2021). You set the weights.</p>
+  <p><b>Risk index.</b> 100 × hazard × (0.4 + 0.6 × vulnerability).</p>
+  <p><b>Neighbourhood grid.</b> Selecting a city draws 64 cells of about 1.25 km showing built-up against tree cover. It is a land-cover proxy for heat retention and a 2021 snapshot, not measured surface temperature. Cities without land-cover data show no grid.</p>
+  <p><b>AI briefing.</b> Written at build time by Llama 3.3 70B on Groq, using only the figures for the ten hottest cities per region over three days. It can contain errors, so check it against the map.</p>
+  <p><b>Limits.</b> Age and urbanisation are national figures. There is no data on outdoor workers or cooling access. Monthly normals ignore change within the month. Forecasts are model output. Each country shows its largest cities plus its capital, from places above 15,000 people.</p>
+  <p><b>Sources.</b> Open-Meteo.com (CC BY 4.0), GeoNames (CC BY 4.0), World Bank Open Data (CC BY 4.0), NASA POWER, ESA WorldCover 2021 (CC BY 4.0), Groq, and a CARTO and OpenStreetMap basemap.</p>
+  <form method="dialog"><button class="btn">Close</button></form>
+</dialog>
+<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
