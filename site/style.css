@@ -1,0 +1,62 @@
+:root{--ink:#14202b;--mut:#5d6c7b;--line:#dde3ea;--bg:#f3f5f7;--hot:#c2331a}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{display:flex;flex-direction:column;font:14px/1.5 "IBM Plex Sans",system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px;padding:10px 20px;background:#fff;border-bottom:1px solid var(--line)}
+h1,h2,.big{font-family:"Source Serif 4",Georgia,serif;font-weight:600}
+h1{margin:0;font-size:25px;line-height:1.1;letter-spacing:-.01em}
+.brand p{margin:2px 0 0;color:var(--mut);font-size:13px}
+.ctl{display:flex;flex-wrap:wrap;gap:10px;margin-left:auto;align-items:center}
+button{font:inherit;color:inherit}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff}
+.seg button{border:0;background:none;padding:6px 11px;cursor:pointer;color:var(--mut)}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:var(--ink);color:#fff}
+.btn{border:1px solid var(--line);background:#fff;border-radius:6px;padding:6px 12px;cursor:pointer}
+.btn:hover,.seg button:hover:not(.on){border-color:var(--ink);color:var(--ink)}
+:focus-visible{outline:2px solid var(--hot);outline-offset:2px}
+main{flex:1;min-height:0;display:grid;grid-template-columns:1fr 410px}
+#mapwrap{position:relative;min-height:420px}
+#map{position:absolute;inset:0}
+#legend{position:absolute;left:12px;bottom:28px;background:rgba(255,255,255,.93);padding:8px 10px;border-radius:6px;font-size:12px;color:var(--mut);z-index:2}
+#legend i{display:block;width:180px;height:8px;margin:4px 0;border-radius:4px;background:linear-gradient(90deg,#fff3b0,#fdc24b 19%,#f78b2d 38%,#e5441f 56%,#a4161a 75%,#5b0a14)}
+#legend span{display:flex;justify-content:space-between;width:180px}
+#msg{position:absolute;inset:auto 12px 12px;background:#fff;border:1px solid var(--hot);padding:10px 12px;border-radius:6px;z-index:2}
+aside{overflow:auto;background:#fff;border-left:1px solid var(--line)}
+aside section{padding:14px 18px;border-bottom:1px solid var(--line)}
+h2{margin:0 0 8px;font-size:16px}
+.big{font-size:20px;line-height:1.3;margin:0}
+.big b{color:var(--hot);font-size:36px;line-height:1}
+.sub{margin:6px 0 0;color:var(--mut);font-size:13px}
+ol{list-style:none;margin:0;padding:0}
+#rank li{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;padding:6px 8px;margin:0 -8px;border-radius:6px;cursor:pointer}
+#rank li:hover,#rank li.on{background:var(--bg)}
+#rank li>span{color:var(--mut)}
+#rank small{display:block;color:var(--mut)}
+#rank em{font-style:normal;font-weight:600;min-width:36px;text-align:center;border-radius:5px;padding:2px 6px}
+.bars{display:flex;gap:6px;align-items:flex-end;height:112px;margin:10px 0 4px}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:2px;font-size:12px;color:var(--mut)}
+.bar i{width:70%;min-height:2px;border-radius:3px 3px 0 0}
+.bar em{font-style:normal}
+.bar.on{color:var(--ink);font-weight:600}
+.bar.on i{outline:2px solid var(--ink)}
+table{width:100%;border-collapse:collapse;margin-top:8px}
+td{padding:4px 0;border-top:1px solid var(--line)}
+td+td{text-align:right;font-weight:500}
+label{display:block;margin:10px 0}
+label output{float:right;color:var(--mut)}
+input[type=range]{width:100%;accent-color:var(--hot)}
+.fine{font-size:12px;color:var(--mut)}
+.warn{color:var(--hot)}
+dialog{max-width:640px;border:1px solid var(--line);border-radius:10px;padding:20px 24px;color:var(--ink)}
+dialog::backdrop{background:rgba(20,32,43,.4)}
+dialog h2{font-size:20px}
+@media(max-width:900px){html,body{height:auto}main{display:block}#mapwrap{height:62vh}aside{border-left:0}}
+details{margin-top:10px}
+summary{cursor:pointer;color:var(--mut)}
+input[type=password],textarea{width:100%;margin:8px 0;padding:7px 9px;border:1px solid var(--line);border-radius:6px;font:inherit}
+#ans,#brief{white-space:pre-wrap}
+#brief{margin:0 0 6px}
+.seg.wide{display:flex}
+.seg.wide button{flex:1}
+.zoom{margin-top:10px}
